@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { getSession } from './lib/auth'
 import Login from './pages/Login'
-import Navbar from './components/Navbar'
+import Navbar from "./components/Navbar.jsx"
 import Dashboard from './pages/Dashboard'
 import Ninos from './pages/Ninos'
 import Maestros from './pages/Maestros'
