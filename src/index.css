@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: url(/bg-login.png) center center / cover no-repeat fixed;
+  color: #0A1628;
+  margin: 0;
+}
+
+/* ── IPUC Brand Colors ─────────────────────────────────────────
+   Azul Cyan:   #009FDA  (globo del logo)
+   Azul Oscuro: #003DA5  (fondo principal / sidebar)
+   Amarillo:    #F0AB00  (acentos / dorado)
+   Blanco:      #FFFFFF
+   Fondo claro: #F0F7FF  (azul muy tenue)
+────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #009FDA55; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #009FDA; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes shimmer {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+.animate-fadeUp  { animation: fadeUp  0.45s ease both; }
+.animate-fadeIn  { animation: fadeIn  0.3s  ease both; }
+.animate-scaleIn { animation: scaleIn 0.3s  ease both; }
+
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.10s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.20s; }
+
+.ipuc-logo { object-fit: contain; }
