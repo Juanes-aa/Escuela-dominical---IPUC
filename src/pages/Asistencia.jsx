@@ -16,7 +16,6 @@ const glass = {
 const normalizar = txt =>
   (txt || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase()
 
-// Mapea cualquier variación de nombre de grupo al nombre canónico
 const canonizarGrupo = (grupo = '') => {
   const n = normalizar(grupo)
   if (n.includes('peque') || n.includes('naveg')) return 'Pequeños Navegantes'
@@ -30,13 +29,19 @@ const canonizarGrupo = (grupo = '') => {
 
 function generarDomingos2026() {
   const domingos = []
-  const fecha = new Date(2026, 0, 1)
+  const fecha = new Date(2026, 0, 1, 12, 0, 0) // 12:00:00 evita desfase UTC
   while (fecha.getFullYear() === 2026) {
-    if (fecha.getDay() === 0) domingos.push(fecha.toISOString().split('T')[0])
+    if (fecha.getDay() === 0) {
+      const y = fecha.getFullYear()
+      const m = String(fecha.getMonth() + 1).padStart(2, '0')
+      const d = String(fecha.getDate()).padStart(2, '0')
+      domingos.push(`${y}-${m}-${d}`) // Construir string local, sin toISOString()
+    }
     fecha.setDate(fecha.getDate() + 1)
   }
   return domingos
 }
+
 const DOMINGOS_2026 = generarDomingos2026()
 
 export default function Asistencia({ ninos, asistencia, toggleAsistencia }) {
@@ -46,7 +51,6 @@ export default function Asistencia({ ninos, asistencia, toggleAsistencia }) {
 
   const presentes = asistencia[fecha] ?? []
 
-  // Usar canonizarGrupo para que coincidan independientemente del texto exacto en BD
   const enGrupo = ninos.filter(n => canonizarGrupo(n.grupo) === grupo)
   const totalPresentes = enGrupo.filter(n => presentes.includes(n.id)).length
 
