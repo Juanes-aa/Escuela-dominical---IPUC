@@ -28,19 +28,19 @@ const canonizarGrupo = (grupo = '') => {
   return grupo
 }
 
-function generarDomingos2025() {
+function generarDomingos2026() {
   const domingos = []
-  const fecha = new Date(2025, 0, 1)
-  while (fecha.getFullYear() === 2025) {
+  const fecha = new Date(2026, 0, 1)
+  while (fecha.getFullYear() === 2026) {
     if (fecha.getDay() === 0) domingos.push(fecha.toISOString().split('T')[0])
     fecha.setDate(fecha.getDate() + 1)
   }
   return domingos
 }
-const DOMINGOS_2025 = generarDomingos2025()
+const DOMINGOS_2026 = generarDomingos2026()
 
 export default function Asistencia({ ninos, asistencia, toggleAsistencia }) {
-  const [fecha, setFecha] = useState(DOMINGOS_2025[0])
+  const [fecha, setFecha] = useState(DOMINGOS_2026[0])
   const [grupo, setGrupo] = useState(GRUPOS[0])
   const [modo,  setModo]  = useState('ver')
 
@@ -68,7 +68,7 @@ export default function Asistencia({ ninos, asistencia, toggleAsistencia }) {
       {/* Header */}
       <div style={{ marginBottom:20 }}>
         <h1 style={{ fontSize:24, fontWeight:800, color:C.navy, margin:'0 0 2px' }}>
-          📋 Asistencia 2025
+          📋 Asistencia 2026
         </h1>
         <p style={{ color:'#555', fontSize:13, margin:0 }}>Registro de asistencia por domingo</p>
       </div>
@@ -91,7 +91,7 @@ export default function Asistencia({ ninos, asistencia, toggleAsistencia }) {
                 fontSize:14,
               }}
             >
-              {DOMINGOS_2025.map(d => <option key={d} value={d}>{formatDate(d)}</option>)}
+              {DOMINGOS_2026.map(d => <option key={d} value={d}>{formatDate(d)}</option>)}
             </select>
           </div>
 

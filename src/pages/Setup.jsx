@@ -112,7 +112,7 @@ FOR INSERT TO authenticated WITH CHECK (bucket_id = 'fotos');`
       <div style={{background:'linear-gradient(135deg,rgba(200,151,58,0.1),rgba(90,122,92,0.1))',borderRadius:16,padding:24,border:'2px solid rgba(200,151,58,0.2)'}}>
         <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:18,color:'#003DA5',marginBottom:10}}>🔐 Credenciales actuales (demo)</h2>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
-          {[['admin','calasanz2025'],['coordinadora','ipuc1234']].map(([u,p])=>(
+          {[['admin','calasanz2026'],['coordinadora','ipuc1234']].map(([u,p])=>(
             <div key={u} style={{background:'white',borderRadius:10,padding:'12px 16px'}}>
               <div style={{fontSize:12,color:'#aaa',marginBottom:4}}>Usuario / Contraseña</div>
               <code style={{fontSize:14,color:'#003DA5',fontWeight:700}}>{u}</code>
