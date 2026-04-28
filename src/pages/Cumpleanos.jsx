@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Avatar from '../components/Avatar'
 import Badge from '../components/Badge'
+import CumpleCard from '../components/Cumplecard'
 import { MESES, GRUPO_CONFIG } from '../data/ninos'
 import { calcAge } from '../lib/utils'
 
@@ -28,6 +29,7 @@ export default function Cumpleanos({ ninos }) {
   const mesActual = new Date().getMonth()
   const [mesIdx, setMesIdx] = useState(mesActual)
   const [diaSeleccionado, setDiaSeleccionado] = useState(null)
+  const [ninoCard, setNinoCard] = useState(null)
 
   const mesNombre = MESES[mesIdx]
   const totalDias = diasEnMes(mesIdx)
@@ -205,6 +207,11 @@ export default function Cumpleanos({ ninos }) {
                       {n.fecha_nacimiento && <div style={{ fontSize:11, color:'#888', marginTop:4 }}>Cumple {calcAge(n.fecha_nacimiento)+1} años 🎈</div>}
                       {n.celular && <div style={{ fontSize:11, color:C.blue, marginTop:2 }}>📞 {n.celular}</div>}
                     </div>
+                    <button onClick={() => setNinoCard(n)} style={{
+                      padding:'6px 10px', borderRadius:8, border:'none', cursor:'pointer',
+                      background:'linear-gradient(135deg,#003DA5,#009FDA)', color:'white',
+                      fontSize:11, fontWeight:700, flexShrink:0,
+                    }}>🎂 Tarjeta</button>
                   </div>
                 )
               })}
@@ -262,7 +269,20 @@ export default function Cumpleanos({ ninos }) {
 
       </div>
 
-      
+      {/* Modal CumpleCard */}
+      {ninoCard && (
+        <div onClick={() => setNinoCard(null)} style={{
+          position:'fixed', inset:0, zIndex:1000,
+          background:'rgba(0,0,0,0.6)',
+          display:'flex', alignItems:'center', justifyContent:'center',
+          padding:16, overflowY:'auto',
+        }}>
+          <div onClick={e => e.stopPropagation()} style={{ width:'100%', maxWidth:540 }}>
+            <CumpleCard nino={ninoCard} onClose={() => setNinoCard(null)} />
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
