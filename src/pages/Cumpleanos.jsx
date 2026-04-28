@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Avatar from '../components/Avatar'
 import Badge from '../components/Badge'
+import Modal from '../components/Modal'
+import CumpleCard from '../components/Cumplecard'
 import { MESES, GRUPO_CONFIG } from '../data/ninos'
 import { calcAge } from '../lib/utils'
 
@@ -28,6 +30,7 @@ export default function Cumpleanos({ ninos }) {
   const mesActual = new Date().getMonth()
   const [mesIdx, setMesIdx] = useState(mesActual)
   const [diaSeleccionado, setDiaSeleccionado] = useState(null)
+  const [ninoCard, setNinoCard] = useState(null)
 
   const mesNombre = MESES[mesIdx]
   const totalDias = diasEnMes(mesIdx)
@@ -205,6 +208,12 @@ export default function Cumpleanos({ ninos }) {
                       {n.fecha_nacimiento && <div style={{ fontSize:11, color:'#888', marginTop:4 }}>Cumple {calcAge(n.fecha_nacimiento)+1} años 🎈</div>}
                       {n.celular && <div style={{ fontSize:11, color:C.blue, marginTop:2 }}>📞 {n.celular}</div>}
                     </div>
+                    <button onClick={() => setNinoCard(n)} style={{
+                      flexShrink:0, padding:'6px 10px', borderRadius:8, border:'none',
+                      background:'linear-gradient(135deg,#e8405a,#f39c12)',
+                      color:'white', fontSize:12, fontWeight:700, cursor:'pointer',
+                      whiteSpace:'nowrap',
+                    }}>🎂 Tarjeta</button>
                   </div>
                 )
               })}
@@ -237,6 +246,12 @@ export default function Cumpleanos({ ninos }) {
                             <div style={{ fontSize:12, fontWeight:600, color:'#1A1628', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{n.nombre}</div>
                             <div style={{ fontSize:10, color:'#aaa' }}>{cfg.emoji} {n.grupo}</div>
                           </div>
+                          <button onClick={() => setNinoCard(n)} style={{
+                            flexShrink:0, padding:'4px 8px', borderRadius:7, border:'none',
+                            background:'linear-gradient(135deg,#e8405a,#f39c12)',
+                            color:'white', fontSize:11, fontWeight:700, cursor:'pointer',
+                            whiteSpace:'nowrap',
+                          }}>🎂</button>
                         </div>
                       )
                     })
@@ -262,7 +277,11 @@ export default function Cumpleanos({ ninos }) {
 
       </div>
 
-      
+      {ninoCard && (
+        <Modal title={`🎂 Tarjeta de cumpleaños · ${ninoCard.nombre}`} onClose={() => setNinoCard(null)} maxWidth={560}>
+          <CumpleCard nino={ninoCard} onClose={() => setNinoCard(null)} />
+        </Modal>
+      )}
     </div>
   )
 }
