@@ -60,7 +60,7 @@ export function useStore() {
 
   // ── CRUD Niños ─────────────────────────────────────────────
   const addNino = async n => {
-    const nuevo = { ...n, item: ninosRef.current.length + 1 }
+    const { _grupoCanon, ...nuevo } = { ...n, item: ninosRef.current.length + 1 }
     delete nuevo.id
     if (nuevo.foto_url?.startsWith('data:')) {
       const url = await uploadFoto(nuevo.foto_url, nuevo.nombre || 'nino')
@@ -79,7 +79,7 @@ export function useStore() {
   }
 
   const updateNino = async n => {
-    const payload = { ...n }
+    const { _grupoCanon, ...payload } = n
     if (payload.foto_url?.startsWith('data:')) {
       const url = await uploadFoto(payload.foto_url, payload.nombre || `nino-${n.id}`)
       payload.foto_url = url || ''
@@ -87,12 +87,13 @@ export function useStore() {
     const { data, error } = await supabase.from('ninos').update(payload).eq('id', payload.id).select().single()
     if (error) {
       console.error('Error actualizando niño:', error)
-      return
+      return { error }
     }
     if (data) {
       ninosRef.current = ninosRef.current.map(x => x.id === n.id ? data : x)
       setNinos([...ninosRef.current])
     }
+    return { error: null }
   }
 
   const deleteNino = async id => {

@@ -54,10 +54,16 @@ const canonizarGrupo = (grupo = '') => {
 }
 
 export default function Ninos({ ninos, addNino, updateNino, deleteNino }) {
-  const [search, setSearch] = useState('')
-  const [grupo,  setGrupo]  = useState('Todos')
-  const [modal,  setModal]  = useState(null)
-  const [sel,    setSel]    = useState(null)
+  const [search,  setSearch]  = useState('')
+  const [grupo,   setGrupo]   = useState('Todos')
+  const [modal,   setModal]   = useState(null)
+  const [sel,     setSel]     = useState(null)
+  const [toast,   setToast]   = useState(null)
+
+  const showToast = (msg, ok = true) => {
+    setToast({ msg, ok })
+    setTimeout(() => setToast(null), 3500)
+  }
 
   const ninosNormalizados = (ninos || []).map(n => ({
     ...n,
@@ -81,10 +87,16 @@ export default function Ninos({ ninos, addNino, updateNino, deleteNino }) {
   const closeModal   = ()  => { setModal(null); setSel(null) }
   const detailToEdit = n  => { setSel(n); setModal('edit') }
 
-  const handleSave = form => {
-    if (modal === 'add') addNino(form)
-    else updateNino({ ...sel, ...form, id: sel.id, item: sel.item })
-    closeModal()
+  const handleSave = async form => {
+    let result
+    if (modal === 'add') result = await addNino(form)
+    else result = await updateNino({ ...sel, ...form, id: sel.id, item: sel.item })
+    if (result?.error) {
+      showToast('Error al guardar. Intenta de nuevo.', false)
+    } else {
+      showToast(modal === 'add' ? '¡Niño/a agregado correctamente!' : '¡Cambios guardados correctamente!')
+      closeModal()
+    }
   }
 
   const handleDelete = n => {
@@ -110,7 +122,23 @@ export default function Ninos({ ninos, addNino, updateNino, deleteNino }) {
           .ninos-cards-view { display: none !important; }
           .ninos-table-view { display: block !important; }
         }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
       `}</style>
+
+      {/* Toast */}
+      {toast && (
+        <div style={{
+          position:'fixed', bottom:28, left:'50%', transform:'translateX(-50%)',
+          background: toast.ok ? '#1a7f4b' : '#c0392b',
+          color:'white', padding:'13px 24px', borderRadius:12,
+          fontFamily:"'DM Sans',sans-serif", fontWeight:700, fontSize:14,
+          boxShadow:'0 6px 24px rgba(0,0,0,0.25)', zIndex:9999,
+          animation:'slideIn 0.25s ease',
+          whiteSpace:'nowrap',
+        }}>
+          {toast.ok ? '✅' : '❌'} {toast.msg}
+        </div>
+      )}
 
       {/* Header */}
       <div style={{ marginBottom: 20 }}>
