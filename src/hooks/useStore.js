@@ -40,11 +40,32 @@ export function useStore() {
     fetchAll()
   }, [])
 
+  // ── Subir foto al Storage (evita guardar base64 enorme en BD) ──
+  const uploadFoto = async (dataUrl, filename) => {
+    try {
+      const res = await fetch(dataUrl)
+      const blob = await res.blob()
+      const ext = blob.type.split('/')[1] || 'jpg'
+      const path = `ninos/${filename}-${Date.now()}.${ext}`
+      const { error } = await supabase.storage.from('fotos').upload(path, blob, {
+        contentType: blob.type, upsert: true,
+      })
+      if (error) return null
+      const { data: { publicUrl } } = supabase.storage.from('fotos').getPublicUrl(path)
+      return publicUrl
+    } catch {
+      return null
+    }
+  }
+
   // ── CRUD Niños ─────────────────────────────────────────────
   const addNino = async n => {
-    // Usar el ref para obtener el conteo real y actualizado (funciona en loops)
     const nuevo = { ...n, item: ninosRef.current.length + 1 }
     delete nuevo.id
+    if (nuevo.foto_url?.startsWith('data:')) {
+      const url = await uploadFoto(nuevo.foto_url, nuevo.nombre || 'nino')
+      nuevo.foto_url = url || ''
+    }
     const { data, error } = await supabase.from('ninos').insert(nuevo).select().single()
     if (error) {
       console.error('Error insertando niño:', error)
@@ -58,8 +79,17 @@ export function useStore() {
   }
 
   const updateNino = async n => {
-    const { data, error } = await supabase.from('ninos').update(n).eq('id', n.id).select().single()
-    if (!error && data) {
+    const payload = { ...n }
+    if (payload.foto_url?.startsWith('data:')) {
+      const url = await uploadFoto(payload.foto_url, payload.nombre || `nino-${n.id}`)
+      payload.foto_url = url || ''
+    }
+    const { data, error } = await supabase.from('ninos').update(payload).eq('id', payload.id).select().single()
+    if (error) {
+      console.error('Error actualizando niño:', error)
+      return
+    }
+    if (data) {
       ninosRef.current = ninosRef.current.map(x => x.id === n.id ? data : x)
       setNinos([...ninosRef.current])
     }
