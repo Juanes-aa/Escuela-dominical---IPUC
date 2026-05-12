@@ -46,7 +46,10 @@ export function useStore() {
       const res = await fetch(dataUrl)
       const blob = await res.blob()
       const ext = blob.type.split('/')[1] || 'jpg'
-      const path = `ninos/${filename}-${Date.now()}.${ext}`
+      const safeName = filename
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-zA-Z0-9_-]/g, '_')
+      const path = `ninos/${safeName}-${Date.now()}.${ext}`
       const { error } = await supabase.storage.from('fotos').upload(path, blob, {
         contentType: blob.type, upsert: true,
       })
