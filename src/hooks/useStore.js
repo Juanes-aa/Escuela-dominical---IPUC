@@ -112,7 +112,9 @@ export function useStore() {
     const nuevo = { ...m }
     delete nuevo.id
     const { data, error } = await supabase.from('maestros').insert(nuevo).select().single()
-    if (!error && data) setMaestros(prev => [...prev, data])
+    if (error) { console.error('Error insertando maestro:', error); return { data: null, error } }
+    if (data) setMaestros(prev => [...prev, data])
+    return { data, error: null }
   }
 
   const updateMaestro = async m => {

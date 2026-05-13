@@ -77,7 +77,7 @@ export default function App() {
           {page === 'miembros'   && <Miembros   miembros={miembros} addMiembro={addMiembro} updateMiembro={updateMiembro} deleteMiembro={deleteMiembro} />}
           {page === 'asistencia' && <Asistencia ninos={ninos} asistencia={asistencia} toggleAsistencia={toggleAsistencia} setPresentesEnFecha={setPresentesEnFecha} />}
           {page === 'cumpleanos' && <Cumpleanos ninos={ninos} />}
-          {page === 'importar'   && <Importar   addNino={addNino} />}
+          {page === 'importar'   && <Importar   addNino={addNino} addMaestro={addMaestro} />}
           {page === 'setup'      && <Setup />}
         </div>
       </main>
