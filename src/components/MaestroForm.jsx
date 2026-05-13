@@ -6,7 +6,7 @@ import { GRUPOS } from '../data/ninos'
 const C = { navy: '#003DA5', blue: '#009FDA' }
 
 const ROLES = ['Maestra', 'Maestro', 'Coordinadora', 'Coordinador', 'Auxiliar']
-const EMPTY = { nombre: '', rol: 'Maestra', clase: 'Pequeños Navegantes', celular: '', email: '', foto_url: '' }
+const EMPTY = { nombre: '', rol: 'Maestra', clase: 'Pequeños Navegantes', celular: '', email: '', foto_url: '', fecha_nacimiento: '' }
 
 export default function MaestroForm({ initial, onSave, onClose }) {
   const [f, setF] = useState(() => initial ? { ...EMPTY, ...initial } : { ...EMPTY })
@@ -58,8 +58,12 @@ export default function MaestroForm({ initial, onSave, onClose }) {
           <Input value={f.celular} onChange={e => set('celular', e.target.value)} placeholder="3XX XXX XXXX" />
         </FormField>
 
-        <FormField label="Correo electrónico" full>
+        <FormField label="Correo electrónico">
           <Input type="email" value={f.email} onChange={e => set('email', e.target.value)} placeholder="correo@ejemplo.com" />
+        </FormField>
+
+        <FormField label="Fecha de cumpleaños">
+          <Input type="date" value={f.fecha_nacimiento || ''} onChange={e => set('fecha_nacimiento', e.target.value)} />
         </FormField>
 
       </div>

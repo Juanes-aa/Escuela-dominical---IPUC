@@ -76,7 +76,7 @@ export default function App() {
           {page === 'maestros'   && <Maestros   maestros={maestros} addMaestro={addMaestro} updateMaestro={updateMaestro} deleteMaestro={deleteMaestro} />}
           {page === 'miembros'   && <Miembros   miembros={miembros} addMiembro={addMiembro} updateMiembro={updateMiembro} deleteMiembro={deleteMiembro} />}
           {page === 'asistencia' && <Asistencia ninos={ninos} asistencia={asistencia} toggleAsistencia={toggleAsistencia} setPresentesEnFecha={setPresentesEnFecha} />}
-          {page === 'cumpleanos' && <Cumpleanos ninos={ninos} />}
+          {page === 'cumpleanos' && <Cumpleanos ninos={ninos} maestros={maestros} />}
           {page === 'importar'   && <Importar   addNino={addNino} addMaestro={addMaestro} />}
           {page === 'setup'      && <Setup />}
         </div>

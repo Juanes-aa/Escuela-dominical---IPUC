@@ -84,13 +84,15 @@ const COLUMNAS_NINOS = [
 // ── Maestros ───────────────────────────────────────────────────────────────
 function mapMaestro(row) {
   const cargo = normalize(row['Cargo'] ?? row['cargo'] ?? 'Maestro')
+  const rawFecha = row['Fecha Cumpleaños'] ?? row['Fecha Cumpleanos'] ?? row['fecha_nacimiento'] ?? null
   return {
-    nombre:   normalize(row['Nombre y apellido'] ?? row['Nombre completo'] ?? row['nombre'] ?? ''),
-    rol:      cargo,
-    clase:    canonizarClase(row['Clase'] ?? row['clase'] ?? ''),
-    celular:  normalize(row['Celular'] ?? row['celular'] ?? ''),
-    email:    normalize(row['Email'] ?? row['email'] ?? row['Correo'] ?? ''),
-    foto_url: '',
+    nombre:           normalize(row['Nombre y apellido'] ?? row['Nombre completo'] ?? row['nombre'] ?? ''),
+    rol:              cargo,
+    clase:            canonizarClase(row['Clase'] ?? row['clase'] ?? ''),
+    celular:          normalize(row['Celular'] ?? row['celular'] ?? ''),
+    email:            normalize(row['Email'] ?? row['email'] ?? row['Correo'] ?? ''),
+    foto_url:         '',
+    fecha_nacimiento: parseFecha(rawFecha) ?? '',
   }
 }
 
