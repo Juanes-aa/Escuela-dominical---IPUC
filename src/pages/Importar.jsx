@@ -23,6 +23,15 @@ function parseFecha(raw) {
     const date = XLSX.SSF.parse_date_code(raw)
     if (date) return `${date.y}-${String(date.m).padStart(2,'0')}-${String(date.d).padStart(2,'0')}`
   }
+  if (typeof raw === 'string') {
+    // DD/MM/YYYY o D/M/YYYY (formato colombiano)
+    const m = raw.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/)
+    if (m) {
+      const [, d, mo, y] = m
+      if (parseInt(y) > 1900)
+        return `${y}-${mo.padStart(2,'0')}-${d.padStart(2,'0')}`
+    }
+  }
   const parsed = new Date(raw)
   if (!isNaN(parsed)) return parsed.toISOString().split('T')[0]
   return null
