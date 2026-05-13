@@ -3,6 +3,7 @@ import Avatar from '../components/Avatar'
 import Badge from '../components/Badge'
 import Modal from '../components/Modal'
 import CumpleCard from '../components/Cumplecard'
+import MaestroCumpleCard from '../components/MaestroCumpleCard'
 import { MESES, GRUPO_CONFIG } from '../data/ninos'
 import { calcAge } from '../lib/utils'
 
@@ -32,7 +33,8 @@ export default function Cumpleanos({ ninos, maestros = [] }) {
   const mesActual = new Date().getMonth()
   const [mesIdx, setMesIdx] = useState(mesActual)
   const [diaSeleccionado, setDiaSeleccionado] = useState(null)
-  const [ninoCard, setNinoCard] = useState(null)
+  const [ninoCard,    setNinoCard]    = useState(null)
+  const [maestroCard, setMaestroCard] = useState(null)
 
   const mesNombre = MESES[mesIdx]
   const totalDias = diasEnMes(mesIdx)
@@ -233,6 +235,7 @@ export default function Cumpleanos({ ninos, maestros = [] }) {
                     <span style={{ fontSize:10, fontWeight:700, background:'rgba(5,150,105,0.12)', color:CM, padding:'2px 8px', borderRadius:6 }}>👩‍🏫 {m.rol}</span>
                     {m.fecha_nacimiento && <div style={{ fontSize:11, color:'#888', marginTop:4 }}>Cumple {calcAge(m.fecha_nacimiento)+1} años 🎈</div>}
                     {m.celular && <div style={{ fontSize:11, color:CM, marginTop:2 }}>📞 {m.celular}</div>}
+                    <button className="cumple-card-btn" onClick={() => setMaestroCard(m)} style={{ marginTop:8, padding:'5px 12px', borderRadius:8, border:'none', background:'linear-gradient(135deg,#c9856a,#9b3d2b)', color:'white', fontSize:11, fontWeight:700, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" }}>🎂 Generar card</button>
                   </div>
                 </div>
               ))}
@@ -269,9 +272,7 @@ export default function Cumpleanos({ ninos, maestros = [] }) {
                             <div style={{ fontSize:12, fontWeight:600, color:'#1A1628', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{p.nombre}</div>
                             <div style={{ fontSize:10, color: esMaestro ? CM : '#aaa' }}>{esMaestro ? `👩‍🏫 ${p.rol}` : `${cfg.emoji ?? ''} ${p.grupo ?? ''}`}</div>
                           </div>
-                          {!esMaestro && (
-                            <button className="cumple-card-btn" onClick={() => setNinoCard(p)} style={{ padding:'4px 10px', borderRadius:8, border:'none', flexShrink:0, background:'linear-gradient(135deg,#003DA5,#009FDA)', color:'white', fontSize:10, fontWeight:700, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" }}>🎂</button>
-                          )}
+                          <button className="cumple-card-btn" onClick={() => esMaestro ? setMaestroCard(p) : setNinoCard(p)} style={{ padding:'4px 10px', borderRadius:8, border:'none', flexShrink:0, background: esMaestro ? 'linear-gradient(135deg,#c9856a,#9b3d2b)' : 'linear-gradient(135deg,#003DA5,#009FDA)', color:'white', fontSize:10, fontWeight:700, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" }}>🎂</button>
                         </div>
                       )
                     })
@@ -300,6 +301,12 @@ export default function Cumpleanos({ ninos, maestros = [] }) {
       {ninoCard && (
         <Modal title={`🎂 Card de cumpleaños — ${ninoCard.nombre}`} onClose={() => setNinoCard(null)} maxWidth={560}>
           <CumpleCard nino={ninoCard} onClose={() => setNinoCard(null)} />
+        </Modal>
+      )}
+
+      {maestroCard && (
+        <Modal title={`🎂 Card de cumpleaños — ${maestroCard.nombre}`} onClose={() => setMaestroCard(null)} maxWidth={480}>
+          <MaestroCumpleCard maestro={maestroCard} onClose={() => setMaestroCard(null)} />
         </Modal>
       )}
     </div>
