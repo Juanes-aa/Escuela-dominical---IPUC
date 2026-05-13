@@ -93,48 +93,50 @@ export default function MaestroCumpleCard({ maestro, onClose }) {
           background:'rgba(160,80,60,0.3)', zIndex:3,
         }} />
 
-        {/* "Feliz" arriba */}
-        <div style={{
-          marginTop: 56, zIndex:4, textAlign:'center',
-          fontFamily:"'Great Vibes', cursive",
-          fontSize: 38, color:'#7a3528',
-          textShadow:'1px 1px 0 rgba(255,255,255,0.5)',
-          lineHeight:1,
-        }}>Feliz</div>
+        {/* Bloque "Feliz Cumple" + polaroid agrupados */}
+        <div style={{ marginTop:44, zIndex:4, display:'flex', flexDirection:'column', alignItems:'center' }}>
 
-        {/* "Cumple" grande encima de la foto */}
-        <div style={{
-          zIndex:6, textAlign:'center',
-          fontFamily:"'Dancing Script', cursive",
-          fontSize: 62, fontWeight:900, color:'#9b3d2b',
-          textShadow:'2px 3px 0 rgba(255,255,255,0.6), 0 0 30px rgba(255,255,255,0.8)',
-          lineHeight:0.9, marginBottom:'-18px',
-          position:'relative',
-        }}>Cumple</div>
-
-        {/* Foto estilo polaroid */}
-        <div style={{
-          zIndex:5,
-          transform:'rotate(-3deg)',
-          background:'white',
-          padding:'10px 10px 32px 10px',
-          boxShadow:'3px 6px 20px rgba(120,50,40,0.25), 0 2px 8px rgba(0,0,0,0.15)',
-          width:240, flexShrink:0,
-        }}>
+          {/* "Feliz" pegado encima de "Cumple" */}
           <div style={{
-            width:220, height:260, overflow:'hidden',
-            background:'#f5ebe6',
-            display:'flex', alignItems:'center', justifyContent:'center',
+            fontFamily:"'Great Vibes', cursive",
+            fontSize:40, color:'#7a3528',
+            textShadow:'1px 1px 0 rgba(255,255,255,0.5)',
+            lineHeight:1, marginBottom:'-6px',
+          }}>Feliz</div>
+
+          {/* "Cumple" flotando sobre la foto */}
+          <div style={{
+            fontFamily:"'Dancing Script', cursive",
+            fontSize:64, fontWeight:900, color:'#9b3d2b',
+            textShadow:'2px 3px 0 rgba(255,255,255,0.7), 0 0 28px rgba(255,255,255,0.9)',
+            lineHeight:0.85, marginBottom:'-28px',
+            zIndex:6, position:'relative',
+          }}>Cumple</div>
+
+          {/* Foto estilo polaroid */}
+          <div style={{
+            zIndex:5,
+            transform:'rotate(-3deg)',
+            background:'white',
+            padding:'10px 10px 36px 10px',
+            boxShadow:'4px 6px 22px rgba(120,50,40,0.28), 0 2px 8px rgba(0,0,0,0.15)',
+            width:260, flexShrink:0,
           }}>
-            {foto ? (
-              <img src={foto} alt={nombre} crossOrigin="anonymous"
-                style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center' }} />
-            ) : (
-              <div style={{
-                fontSize:72, color:'#c9856a', fontWeight:900,
-                fontFamily:"'Nunito', sans-serif",
-              }}>{iniciales}</div>
-            )}
+            <div style={{
+              width:240, height:290, overflow:'hidden',
+              background:'#f5ebe6',
+              display:'flex', alignItems:'center', justifyContent:'center',
+            }}>
+              {foto ? (
+                <img src={foto} alt={nombre} crossOrigin="anonymous"
+                  style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'top center' }} />
+              ) : (
+                <div style={{
+                  fontSize:80, color:'#c9856a', fontWeight:900,
+                  fontFamily:"'Nunito', sans-serif",
+                }}>{iniciales}</div>
+              )}
+            </div>
           </div>
         </div>
 
