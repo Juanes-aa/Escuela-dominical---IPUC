@@ -35,9 +35,16 @@ function mesDesdeFecha(fechaISO) {
 
 const canonizarClase = (clase = '') => {
   const n = clase.toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim()
-  if (n.includes('peque') || n.includes('naveg') || /[345]/.test(n)) return 'Pequeños Navegantes'
-  if (n.includes('firme') || n.includes('puerto') && /[678]/.test(n) || n === '6-8' || n === '7-10') return 'Firmes en el Puerto'
-  if (n.includes('guardian') || /(9|10|11|12)/.test(n)) return 'Guardianes del Puerto'
+  if (n.includes('peque') || n.includes('naveg')) return 'Pequeños Navegantes'
+  if (n.includes('firme')) return 'Firmes en el Puerto'
+  if (n.includes('guardian')) return 'Guardianes del Puerto'
+  // Usar el primer número del rango (ej: "7-9 años" → 7)
+  const primer = parseInt((n.match(/\d+/) || [])[0])
+  if (!isNaN(primer)) {
+    if (primer <= 6)  return 'Pequeños Navegantes'
+    if (primer <= 9)  return 'Firmes en el Puerto'
+    return 'Guardianes del Puerto'
+  }
   for (const g of GRUPOS) {
     if (g.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'') === n) return g
   }
