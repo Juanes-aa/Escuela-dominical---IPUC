@@ -69,6 +69,7 @@ export default function Cumpleanos({ ninos, maestros = [] }) {
           .cal-avatar-row { display: none !important; }
           .cal-mas { display: none !important; }
           .cal-punto { display: block !important; }
+          .cumple-card-btn { display: none !important; }
         }
       `}</style>
 
@@ -219,7 +220,7 @@ export default function Cumpleanos({ ninos, maestros = [] }) {
                       <Badge variant={variantGrupo(n.grupo)}>{cfg.emoji} {n.grupo}</Badge>
                       {n.fecha_nacimiento && <div style={{ fontSize:11, color:'#888', marginTop:4 }}>Cumple {calcAge(n.fecha_nacimiento)+1} años 🎈</div>}
                       {n.celular && <div style={{ fontSize:11, color:C.blue, marginTop:2 }}>📞 {n.celular}</div>}
-                      <button onClick={() => setNinoCard(n)} style={{ marginTop:8, padding:'5px 12px', borderRadius:8, border:'none', background:'linear-gradient(135deg,#003DA5,#009FDA)', color:'white', fontSize:11, fontWeight:700, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" }}>🎂 Generar card</button>
+                      <button className="cumple-card-btn" onClick={() => setNinoCard(n)} style={{ marginTop:8, padding:'5px 12px', borderRadius:8, border:'none', background:'linear-gradient(135deg,#003DA5,#009FDA)', color:'white', fontSize:11, fontWeight:700, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" }}>🎂 Generar card</button>
                     </div>
                   </div>
                 )
@@ -269,7 +270,7 @@ export default function Cumpleanos({ ninos, maestros = [] }) {
                             <div style={{ fontSize:10, color: esMaestro ? CM : '#aaa' }}>{esMaestro ? `👩‍🏫 ${p.rol}` : `${cfg.emoji ?? ''} ${p.grupo ?? ''}`}</div>
                           </div>
                           {!esMaestro && (
-                            <button onClick={() => setNinoCard(p)} style={{ padding:'4px 10px', borderRadius:8, border:'none', flexShrink:0, background:'linear-gradient(135deg,#003DA5,#009FDA)', color:'white', fontSize:10, fontWeight:700, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" }}>🎂</button>
+                            <button className="cumple-card-btn" onClick={() => setNinoCard(p)} style={{ padding:'4px 10px', borderRadius:8, border:'none', flexShrink:0, background:'linear-gradient(135deg,#003DA5,#009FDA)', color:'white', fontSize:10, fontWeight:700, cursor:'pointer', fontFamily:"'DM Sans',sans-serif" }}>🎂</button>
                           )}
                         </div>
                       )
